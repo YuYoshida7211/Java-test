@@ -13,6 +13,10 @@ services:
       SPRING_DATASOURCE_PASSWORD: root
     depends_on:
       - mysql
+    volumes:
+      - ./src:/app/src # ソースコードをマウント
+      - ./resources:/app/resources # リソースもマウント
+      - ~/.m2:/root/.m2 # ローカルの Maven リポジトリをマウント（依存関係をキャッシュ）
 
   mysql:
     image: mysql:8.0.28

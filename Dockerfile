@@ -4,8 +4,18 @@ FROM eclipse-temurin:17-jdk-alpine
 # 作業ディレクトリを設定
 WORKDIR /app
 
-# プロジェクトのJARファイルをコピー
-COPY target/demo-0.0.1-SNAPSHOT.jar /app/demo-0.0.1-SNAPSHOT.jar
+# 必要なパッケージをインストール（mavenやその他必要なもの）
+RUN apk add --no-cache bash maven
 
-# アプリケーションを実行
-ENTRYPOINT ["java", "-jar", "/app/demo-0.0.1-SNAPSHOT.jar"]
+# プロジェクトのソースコードをコピー
+COPY src /app/src
+COPY pom.xml /app
+
+# Maven の依存関係をダウンロード
+RUN mvn clean install
+
+# ホットリロードを有効にする環境変数を設定
+ENV JAVA_OPTS="-Dspring.devtools.restart.enabled=true -Dspring.devtools.livereload.enabled=true"
+
+# アプリケーションを実行する
+CMD ["mvn", "spring-boot:run", "-Dspring-boot.run.profiles=dev"]
