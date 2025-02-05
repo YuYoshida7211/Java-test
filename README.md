@@ -1,4 +1,4 @@
-###
+### Java 課題共通雛形リポジトリ
 
 1. このリポジトリを研修用のフォルダにクローンする
 
@@ -17,11 +17,11 @@ docker-compose build
 // dockerをバックグラウンドで起動
 docker-compose up -d
 
+```
 
 ### docker コンテナに入る
 
 ```
-
 docker exec -it mysql-container bash
 
 ```
@@ -38,7 +38,7 @@ docker compose restart app
 
 ```
 
-mysql -u root -p
+docker exec -it mysql-container mysql -uroot -proot
 
 ```
 
@@ -71,7 +71,5 @@ dump する方法
 ```
 
 docker exec -i mysql-container mysqldump -u root -p demo > dump.sql
-
-```
 
 ```
